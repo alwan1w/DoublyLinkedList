@@ -51,13 +51,13 @@ namespace DoublyLinkedList
                 return;
             }
             Node previous, current;
-            for (current = previous = START; current != null && 
+            for (current = previous = START; current != null &&
                 rollNo >= current.rollNumber; previous = current, current = current.next)
             {
                 if (rollNo == current.rollNumber)
                 {
                     Console.WriteLine("\nDuplicate roll numbers not allowed");
-                    return ;
+                    return;
                 }
             }
             /*In the execution of the above for loop, prev and 
@@ -71,7 +71,7 @@ namespace DoublyLinkedList
             {
                 newnode.next = null;
                 previous.next = newnode;
-                return ;
+                return;
             }
             current.prev = newnode;
             previous.next = newnode;
@@ -81,7 +81,7 @@ namespace DoublyLinkedList
         /*Check wheteher the specified node is present*/
         public bool Search(int rollNo, ref Node previous, ref Node current)
         {
-            for (previous = current = START; current != null && 
+            for (previous = current = START; current != null &&
                  rollNo != current.rollNumber; previous = current, current = current.next)
             { }
             /*The above for loop traverse the list. If the specified node
@@ -104,7 +104,7 @@ namespace DoublyLinkedList
             if (current.next == null)/*If the last node is to be deleted*/
             {
                 previous.next = null;
-                return true ;
+                return true;
             }
             /*If the node to be deleted is in between the list then the following lines of the code is executed.*/
             previous.next = current.next;
@@ -118,7 +118,7 @@ namespace DoublyLinkedList
                 Console.WriteLine("\nList is empty");
             else
             {
-                Console.WriteLine("\nRecords in the ascending order of "+"roll numbers are:\n");
+                Console.WriteLine("\nRecords in the ascending order of " + "roll numbers are:\n");
                 Node currentNode;
                 for (currentNode = START; currentNode != null; currentNode = currentNode.next)
                     Console.Write(currentNode.rollNumber + "  " + currentNode.name + "\n");
@@ -134,7 +134,7 @@ namespace DoublyLinkedList
             {
                 Console.WriteLine("\nRecords int the descending prde of " + "roll numbers are:\n");
                 Node currentNode;
-                for (currentNode = START; currentNode != null; currentNode = currentNode.next)
+                for (currentNode = START; currentNode.next != null; currentNode = currentNode.next)
                 { }
                 while (currentNode != null)
                 {
@@ -149,6 +149,93 @@ namespace DoublyLinkedList
                 return true;
             else
                 return false;
+        }
+        static void Main(string[] args)
+        { 
+            DoubleLinkedList obj = new DoubleLinkedList();
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("\n Menu" +
+                        "\n 1. Add a record to the list" +
+                        "\n 2. Delete a record from the list" +
+                        "\n 3. View all record in ascending order of roll number" +
+                        "\n 4. View all record in descending order of roll number" +
+                        "\n 5. Search for a record in the list" +
+                        "\n 6. Exit \n" +
+                        "\n Enter yor choice (1-6): ");
+                    char ch = Convert.ToChar(Console.ReadLine());
+                    switch (ch)
+                    {
+                        case '1':
+                            {
+                                obj.addNode();
+                            }
+                            break;
+                        case '2':
+                            {
+                                if (obj.listEmpty())
+                                {
+                                    Console.WriteLine("\nList is Empty");
+                                    break;
+                                }
+                                Console.Write("\nEnter the roll number of the student" + "whose record is to be deleted: ");
+                                int rollNo = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine();
+                                if (obj.dellNode(rollNo) == false)
+                                    Console.WriteLine("Record not found");
+                                else
+                                    Console.WriteLine("Record with roll number" + rollNo + " deleted \n ");
+                            }
+                            break;
+                        case '3':
+                            {
+                                obj.traverse();
+                            }
+                            break;
+                        case '4':
+                            {
+                                obj.revtraverse();
+                            }
+                            break;
+                        case '5':
+                            {
+                                if (obj.listEmpty() == true)
+                                {
+                                    Console.WriteLine("\nList id Empty");
+                                    break;
+                                }
+                                Node prev, curr;
+                                prev = curr = null;
+                                Console.Write("\nEnter the rol number of the student whoses rocord you want to search: ");
+                                int num = Convert.ToInt32(Console.ReadLine());
+                                if (obj.Search(num, ref prev, ref curr) == false)
+                                    Console.WriteLine("\nRecord not found");
+                                else
+                                {
+                                    Console.WriteLine("\nRecord found");
+                                    Console.WriteLine("\nRoll number: " + curr.rollNumber);
+                                    Console.WriteLine("\nName:" + curr.name);
+                                }
+
+                            }
+                            break;
+                        case '6':
+                            return;
+                        default:
+                            {
+                                Console.WriteLine("\nInvalid option");
+                            }
+                            break;
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Check for the values entered.");
+                }
+            }
         }
     }
 }
